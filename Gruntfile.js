@@ -18,7 +18,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'build/app'
   };
 
   // Define the configuration for all the tasks
@@ -389,6 +389,19 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    electron: {
+        osxBuild: {
+            options: {
+                name: 'Chaty',
+                dir: 'build',
+                out: 'desktop',
+                version: '0.25.3',
+                platform: 'darwin',
+                arch: 'x64'
+            }
+        }
     }
   });
 
@@ -436,8 +449,11 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'electron:osxBuild'
   ]);
+
+  grunt.registerTask('desktop', [ 'electron:osxBuild'] );
 
   grunt.registerTask('default', [
     'newer:jshint',
