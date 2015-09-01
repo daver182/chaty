@@ -39,12 +39,11 @@
 					</div>
 
 					<div class="collapse navbar-collapse" id="js-navbar-collapse">
-						<ul class="nav navbar-nav">
-							<li><a href="#/">Home</a></li>
-							<li><a ng-show-auth="" ng-href="#/chat">Chat</a></li>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a ng-show-auth="" ng-href="#/chat" alt="Entrar al chat"><span class="fui-chat"></span> Chat</a></li>
 							<li>
-								<a ng-hide-auth="" href="#/login">Entrar</a>
-								<a ng-show-auth="" href="#/account">Cuenta</a>
+								<a ng-hide-auth="" href="#/login"><span class="fui-lock"></span> Entrar</a>
+								<a ng-show-auth="" href="#/account"><span class="fui-user"></span> Cuenta</a>
 							</li>
 						</ul>
 					</div>

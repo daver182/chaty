@@ -1,19 +1,26 @@
+<div class="row">
+	<h4>Chat</h4>
 
-<h2>Chat</h2>
+	<div class="col-sm-4">
+		<ul>
+			<li ng-repeat="user in users" ng-hide="user.$id === profile.$id">
+				<a href="" ng-click="load(user)">{{ user.name }}</a>
+			</li>
+		</ul>
+	</div>
+	<div class="col-sm-8">
+		<ul id="messages" ng-show="messages.length">
+			<li ng-repeat="message in messages | reverse"><strong>{{ message.author }}</strong>: {{message.text}}</li>
+		</ul>
 
-<ul>
-	<li ng-repeat="user in users" ng-hide="user.$id === profile.$id">
-		<a href="" ng-click="load(user)">{{ user.name }}</a>
-	</li>
-</ul>
+		<form>
+			<input placeholder="Message..." ng-model="newMessage">
+			<button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
+		</form>
+	</div>
+</div>
 
-<form>
-  <input placeholder="Message..." ng-model="newMessage">
-  <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
-</form>
 
-<ul id="messages" ng-show="messages.length">
-  <li ng-repeat="message in messages | reverse"><strong>{{ message.author }}</strong>: {{message.text}}</li>
-</ul>
+
 
 <p class="alert alert-danger" ng-show="err">{{err}}</p>
