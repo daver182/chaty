@@ -12,11 +12,19 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 		profile.$bindTo($scope, 'profile');
 
 		$scope.load = function(remoteUser){
-			$scope.messages = $firebaseArray(Ref.child('chats').child(user.uid + '|' + remoteUser.$id));
+			//Probar primero si el otro usuario ya creó el chat primero
+			$scope.messages = $firebaseArray(Ref.child('chats').child(remoteUser.$id + '|' + user.uid)).$loaded()
+			.then(function(messages) {
+				$scope.messages = messages;
+				if(messages.length === 0){
+					$scope.messages = $firebaseArray(Ref.child('chats').child(user.uid + '|' + remoteUser.$id));
+				}
+			});
+			
 		}
 
 		$scope.addMessage = function(newMessage) {
-			if(newMessage && $scope.newMessage) {
+			if(newMessage && $scope.messages) {
 				$scope.messages.$add({ author: profile.name, text: newMessage }).catch(alert);
 			}
 		};
