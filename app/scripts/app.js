@@ -17,5 +17,8 @@ angular.module('chatApp', [
     'ngTouch',
     'firebase',
     'firebase.ref',
-    'firebase.auth'
-  ]);
+    'firebase.auth',
+    'blockUI'
+  ]).config(function(blockUIConfig){
+    blockUIConfig.message = 'Cargando...';
+  });

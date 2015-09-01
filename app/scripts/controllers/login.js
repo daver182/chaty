@@ -6,7 +6,7 @@
  * # LoginCtrl
  * Manages authentication to any active providers.
  */
-angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $location, $q, Ref, $timeout) {
+angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $location, $q, Ref, $timeout, blockUI) {
 	Auth.$onAuth(function(user){
 		if(user && $location.path() === '/login'){
 			return $location.path('/account');
@@ -14,6 +14,7 @@ angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $locat
 	});
 
 	$scope.passwordLogin = function(email, pass) {
+		blockUI.start();
 		$scope.err = null;
 		Auth.$authWithPassword({ email: email, password: pass }, { rememberMe: true }).then(
 			redirect, showError
@@ -22,6 +23,7 @@ angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $locat
 
 	$scope.createAccount = function(email, pass, confirm) {
 		$scope.err = null;
+		blockUI.start();
 		if(!pass) {
 			$scope.err = 'No ingresaste una contraseña';
 		}
@@ -45,6 +47,7 @@ angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $locat
 						def.reject(err);
 					}
 					else {
+						blockUI.stop();
 						def.resolve(ref);
 					}
 				});
@@ -55,6 +58,7 @@ angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $locat
 
 
 	function redirect() {
+		blockUI.stop();
 		$location.path('/account');
 	}
 
