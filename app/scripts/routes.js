@@ -89,8 +89,6 @@ angular.module('chatApp')
 	  
 	  Auth.$onAuth(check);
 
-
-
 	  // some of our routes may reject resolve promises with the special {authRequired: true} error
 	  // this redirects to the login page whenever that is encountered
 	  $rootScope.$on('$routeChangeError', function(e, next, prev, err) {
@@ -103,14 +101,6 @@ angular.module('chatApp')
 		if( !user && authRequired($location.path()) ) {
 		  return $location.path(loginRedirectPath);
 		}
-
-		$rootScope.$on('$routeChangeStart', function(e, next, prev, err) {
-		  console.log(user, $location.path());
-		  if(user && $location.path() === '/login'){
-			  return $location.path('/account');
-			}
-		});
-		
 	  }
 
 	  function authRequired(path) {

@@ -7,6 +7,12 @@
  * Manages authentication to any active providers.
  */
 angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $location, $q, Ref, $timeout) {
+	Auth.$onAuth(function(user){
+		if(user && $location.path() === '/login'){
+			return $location.path('/account');
+		}
+	});
+
 	$scope.passwordLogin = function(email, pass) {
 		$scope.err = null;
 		Auth.$authWithPassword({ email: email, password: pass }, { rememberMe: true }).then(
