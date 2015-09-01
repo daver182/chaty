@@ -9,7 +9,6 @@
  * Main module of the application.
  */
 angular.module('chatApp', [
-    'ngAnimate',
     'ngCookies',
     'ngMessages',
     'ngResource',
