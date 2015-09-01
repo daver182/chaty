@@ -6,21 +6,38 @@
  * # ChatCtrl
  * A demo of using AngularFire to manage a synchronized list.
  */
-angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $firebaseObject, $timeout, user) {
-		$scope.users = $firebaseArray(Ref.child('users'));
+angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $firebaseObject, $timeout, user, blockUI) {
+		blockUI.start('Cargando usuarios...');
+		$firebaseArray(Ref.child('users')).$loaded().then(usersLoaded);
+		function usersLoaded(users){
+			$scope.users = users;
+			blockUI.stop();
+		}
+
 		var profile = $firebaseObject(Ref.child('users/' + user.uid));
 		profile.$bindTo($scope, 'profile');
 
 		$scope.load = function(remoteUser){
-			//Probar primero si el otro usuario ya creó el chat primero
-			$scope.messages = $firebaseArray(Ref.child('chats').child(remoteUser.$id + '|' + user.uid)).$loaded()
-			.then(function(messages) {
-				$scope.messages = messages;
-				if(messages.length === 0){
-					$scope.messages = $firebaseArray(Ref.child('chats').child(user.uid + '|' + remoteUser.$id));
+			//$firebaseArray(Ref.child('chats').child(remoteUser.$id + '|' + user.uid)).$loaded().then(messagesLoaded);
+			blockUI.start('Cargando mensajes...');
+			loadChat(remoteUser.$id, user.uid, true);
+		}
+
+		function loadChat(user1, user2, first){
+			$firebaseArray(Ref.child('chats').child(user1 + '|' + user2)).$loaded().then(
+				function(messages){
+					if(messages.length === 0 && first){
+						return loadChat(user2, user1, false);
+					}
+
+					return messagesLoaded(messages);
 				}
-			});
-			
+			);
+		}
+
+		function messagesLoaded(messages){
+			$scope.messages = messages;
+			blockUI.stop();
 		}
 
 		$scope.addMessage = function(newMessage) {
@@ -35,26 +52,5 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 				$scope.err = null;
 			}, 5000);
 		}
-		/*// synchronize a read-only, synchronized array of messages, limit to most recent 10
-		$scope.messages = $firebaseArray(Ref.child('messages').limitToLast(10));
-
-		// display any errors
-		$scope.messages.$loaded().catch(alert);
-
-		// provide a method for adding a message
-		$scope.addMessage = function(newMessage) {
-			if( newMessage ) {
-				// push a message to the end of the array
-				$scope.messages.$add({text: newMessage})
-					// display any errors
-					.catch(alert);
-			}
-		};
-
-		function alert(msg) {
-			$scope.err = msg;
-			$timeout(function() {
-				$scope.err = null;
-			}, 5000);
-		}*/
+		
 });
