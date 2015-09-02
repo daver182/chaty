@@ -404,6 +404,16 @@ module.exports = function (grunt) {
                 platform: 'darwin',
                 arch: 'x64'
             }
+        },
+        all: {
+          options: {
+            name: 'Chaty',
+            dir: 'build',
+            out: 'desktop',
+            version: '0.25.3',
+            platform: 'all',
+            arch: 'x64'
+          }
         }
     }
   });
@@ -456,7 +466,7 @@ module.exports = function (grunt) {
     'electron:osxBuild'
   ]);
 
-  grunt.registerTask('desktop', [ 'electron:osxBuild'] );
+  grunt.registerTask('desktop', [ 'electron:all'] );
 
   grunt.registerTask('default', [
     'newer:jshint',
