@@ -18,7 +18,10 @@ angular.module('chatApp', [
     'firebase',
     'firebase.ref',
     'firebase.auth',
-    'blockUI'
+    'blockUI',
+    'angularMoment'
   ]).config(function(blockUIConfig){
     blockUIConfig.message = 'Cargando...';
-  });
+  }).run(function(amMoment){
+    amMoment.changeLocale('es');
+});

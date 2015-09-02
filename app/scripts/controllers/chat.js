@@ -43,7 +43,7 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 
 		$scope.addMessage = function(newMessage) {
 			if(newMessage && $scope.messages) {
-				$scope.messages.$add({ author: profile.$id, text: newMessage }).catch(alert);
+				$scope.messages.$add({ author: profile.$id, text: newMessage, date: new Date().valueOf() }).catch(alert);
 			}
 		};
 
