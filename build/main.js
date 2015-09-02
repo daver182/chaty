@@ -22,10 +22,9 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
-		width: 800,
-		height: 600,
+		width: 790,
+		height: 530,
 		"node-integration": false,
-		center: true,
 		resizable: false
 	});
 

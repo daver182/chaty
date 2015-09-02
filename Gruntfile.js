@@ -402,7 +402,30 @@ module.exports = function (grunt) {
                 out: 'desktop',
                 version: '0.25.3',
                 platform: 'darwin',
-                arch: 'x64'
+                arch: 'x64',
+                overwrite: true
+            }
+        },
+        win32Build: {
+            options: {
+                name: 'Chaty',
+                dir: 'build',
+                out: 'desktop',
+                version: '0.25.3',
+                platform: 'win32',
+                arch: 'x64',
+                overwrite: true
+            }
+        },
+        linuxBuild: {
+            options: {
+                name: 'Chaty',
+                dir: 'build',
+                out: 'desktop',
+                version: '0.25.3',
+                platform: 'linux',
+                arch: 'x64',
+                overwrite: true
             }
         },
         all: {
@@ -412,7 +435,8 @@ module.exports = function (grunt) {
             out: 'desktop',
             version: '0.25.3',
             platform: 'all',
-            arch: 'x64'
+            arch: 'x64',
+            overwrite: true
           }
         }
     }
@@ -463,10 +487,12 @@ module.exports = function (grunt) {
     'filerev',
     'usemin',
     'htmlmin',
-    'electron:osxBuild'
+    'electron:all'
   ]);
 
-  grunt.registerTask('desktop', [ 'electron:all'] );
+  grunt.registerTask('build:osx', [ 'electron:osxBuild'] );
+  grunt.registerTask('build:win', [ 'electron:win32Build'] );
+  grunt.registerTask('build:linux', [ 'electron:linuxBuild'] );
 
   grunt.registerTask('default', [
     'newer:jshint',
