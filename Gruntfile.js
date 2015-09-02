@@ -347,8 +347,8 @@ module.exports = function (grunt) {
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
             'styles/fonts/{,*/}*.*',
-            'extra/flatui/css/*.min.css',
-            'extra/flatui/js/*.min.js',
+            'extra/flatui/js/*',
+            'extra/flatui/css/*',
             'extra/flatui/fonts/**/*'
           ]
         }, {
