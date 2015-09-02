@@ -41,7 +41,7 @@ angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $locat
 
 		function createProfile(user) {
 			var ref = Ref.child('users').child(user.uid), def = $q.defer();
-			ref.set({ email: email, name: chance.word() }, function(err) {
+			ref.set({ email: email, name: chance.name() }, function(err) {
 				$timeout(function() {
 					if( err ) {
 						def.reject(err);
