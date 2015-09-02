@@ -14,30 +14,27 @@ angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $locat
 	});
 
 	$scope.passwordLogin = function(email, pass) {
+		if(!check(email, pass)){
+			return false;
+		}
+
 		blockUI.start();
-		$scope.err = null;
 		Auth.$authWithPassword({ email: email, password: pass }, { rememberMe: true }).then(
 			redirect, showError
 		);
 	};
 
 	$scope.createAccount = function(email, pass, confirm) {
-		$scope.err = null;
+		if(!check(email, pass, confirm)) return;
 		blockUI.start();
-		if(!pass) {
-			$scope.err = 'No ingresaste una contraseña';
-		}
-		else if(pass !== confirm) {
-			$scope.err = 'Las contraseñas no coinciden';
-		}
-		else {
-			Auth.$createUser({email: email, password: pass})
-				.then(function () {
-					return Auth.$authWithPassword({email: email, password: pass}, {rememberMe: true});
-				})
-				.then(createProfile)
-				.then(redirect, showError);
-		}
+
+		Auth.$createUser({email: email, password: pass})
+			.then(function () {
+				return Auth.$authWithPassword({email: email, password: pass}, {rememberMe: true});
+			})
+			.then(createProfile)
+			.then(redirect, showError);
+		
 
 		function createProfile(user) {
 			var ref = Ref.child('users').child(user.uid), def = $q.defer();
@@ -56,6 +53,26 @@ angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $locat
 		}
 	}
 
+	function check(email, pass, confirm){
+		if(!email){
+			console.log('no email');
+			swal({ title: 'Error', text: 'No ingresaste un correo', type: 'info', confirmButtonText: "OK" });
+			return false;
+		}
+
+		if(!pass){
+			swal({ title: 'Error', text: 'No ingresaste una contraseña', type: 'info', confirmButtonText: "OK" });
+			return false;
+		}
+
+		if(confirm && pass !== confirm) {
+			swal({ title: 'Error', text: 'Las contraseñas no coinciden', type: 'info', confirmButtonText: "OK" });
+			return false;
+		}
+
+		return true;
+	}
+
 
 	function redirect() {
 		blockUI.stop();
@@ -63,6 +80,8 @@ angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $locat
 	}
 
 	function showError(err) {
-		$scope.err = err;
+		blockUI.stop();
+		swal({ title: 'Ha ocurrido un error', text: err, type: 'error', confirmButtonText: "OK" });
+		
 	}
 });

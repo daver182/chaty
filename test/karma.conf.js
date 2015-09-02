@@ -38,6 +38,7 @@ module.exports = function(config) {
       'bower_components/angular-block-ui/dist/angular-block-ui.js',
       'bower_components/moment/moment.js',
       'bower_components/angular-moment/angular-moment.js',
+      'bower_components/sweetalert/dist/sweetalert.min.js',
       'bower_components/mockfirebase/browser/mockfirebase.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower

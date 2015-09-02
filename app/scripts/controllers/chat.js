@@ -8,7 +8,7 @@
  */
 angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $firebaseObject, $timeout, user, blockUI) {
 		blockUI.start('Cargando usuarios...');
-		$firebaseArray(Ref.child('users')).$loaded().then(usersLoaded);
+		$firebaseArray(Ref.child('users')).$loaded().then(usersLoaded).catch(showError);
 		function usersLoaded(users){
 			$scope.users = users;
 			blockUI.stop();
@@ -33,7 +33,7 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 
 					return messagesLoaded(messages);
 				}
-			);
+			).catch(showError);;
 		}
 
 		function messagesLoaded(messages){
@@ -43,15 +43,12 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 
 		$scope.addMessage = function(newMessage) {
 			if(newMessage && $scope.messages) {
-				$scope.messages.$add({ author: profile.$id, text: newMessage, date: new Date().valueOf() }).catch(alert);
+				$scope.messages.$add({ author: profile.$id, text: newMessage, date: new Date().valueOf() }).catch(showError);
 			}
 		};
 
-		function alert(msg) {
-			$scope.err = msg;
-			$timeout(function() {
-				$scope.err = null;
-			}, 5000);
+		function showError(err) {
+			blockUI.stop();
+			swal({ title: 'Ha ocurrido un error', text: err, type: 'error', confirmButtonText: "OK" });
 		}
-		
 });

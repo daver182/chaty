@@ -13,14 +13,15 @@ angular.module('chatApp').controller('AccountCtrl', function ($scope, user, Auth
 
 	$firebaseObject(Ref.child('users/' + user.uid)).$bindTo($scope, 'profile').then(function(){
 		blockUI.stop();
-	}).catch(error);
+	}).catch(showError);
 
 	$scope.logout = function() {
 		Auth.$unauth();
 		$location.path('/');
 	};
 
-	function error(err){
-		console.log(err);
+	function showError(err) {
+		blockUI.stop();
+		swal({ title: 'Ha ocurrido un error', text: err, type: 'error', confirmButtonText: "OK" });
 	}
 });
