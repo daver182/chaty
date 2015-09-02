@@ -346,7 +346,10 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
+            'extra/flatui/css/*.min.css',
+            'extra/flatui/js/*.min.js',
+            'extra/flatui/fonts/**/*'
           ]
         }, {
           expand: true,
