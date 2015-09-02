@@ -13,13 +13,14 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 			$scope.users = users;
 			blockUI.stop();
 		}
+		$scope.currentUser = {};
 
 		var profile = $firebaseObject(Ref.child('users/' + user.uid));
 		profile.$bindTo($scope, 'profile');
 
 		$scope.load = function(remoteUser){
-			//$firebaseArray(Ref.child('chats').child(remoteUser.$id + '|' + user.uid)).$loaded().then(messagesLoaded);
 			blockUI.start('Cargando mensajes...');
+			$scope.currentUser = remoteUser.$id;
 			loadChat(remoteUser.$id, user.uid, true);
 		}
 
@@ -42,7 +43,7 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 
 		$scope.addMessage = function(newMessage) {
 			if(newMessage && $scope.messages) {
-				$scope.messages.$add({ author: profile.name, text: newMessage }).catch(alert);
+				$scope.messages.$add({ author: profile.$id, text: newMessage }).catch(alert);
 			}
 		};
 

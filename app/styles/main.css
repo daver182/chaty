@@ -1,3 +1,158 @@
+html, body {
+	height: 100%;
+}
+
+.main{
+	height: 80%;
+}
+
+.chat {
+	background: #ebedef;
+    width: 100%;
+    height: 112%;
+    margin-top: -30px;
+    display: flex;
+    overflow: hidden;
+}
+
+.panel-left {
+	background: white;
+    flex-grow: 1;
+}
+
+.panel-right {
+    flex-grow: 4;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-top {
+	background: #efefef;
+    flex-grow: 6;
+    overflow-y: auto;
+    min-height: 0px;
+}
+
+.panel-bottom {
+	background: white;
+}
+
+
+.users-list{
+	list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    background: white;
+    height: 100%;
+}
+
+.users-list a{
+	display: block;
+	padding: 20px;
+	width: 100%;
+	text-align: center;
+	transition: .25s linear;
+	color: #7b8996;
+}
+
+.users-list li:nth-child(odd) a{
+	background: #f9fafb;
+}
+
+.users-list a:hover, .users-list a.active{
+	background-color: #16a085 !important;
+	color: #fff;
+}
+
+.users-list a div:nth-child(2){
+	font-size: 12px;
+	font-weight: 200;
+}
+
+
+.messages{
+	list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.messages .message {
+	width: 100%;
+}
+
+.messages .bubble{
+	font-size: 15px;
+    font-weight: 200;
+    width: 250px;
+    position: relative;
+    background: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.messages .bubble-left {
+	margin-left: 20px;
+	text-align: right;
+	float: left;
+}
+
+.messages .bubble-left:after {
+	content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #FFFFFF;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: -10px;
+    top: 15px;
+}
+
+.messages .bubble-right{
+	margin-right: 20px;
+	text-align: left;
+	float: right;
+}
+
+.messages .bubble-right:after {
+	content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent #FFFFFF;
+    display: block;
+    width: 0;
+    z-index: 1;
+    right: -10px;
+    top: 15px;
+}
+
+
+.new-message {
+	width: 100%;
+    display: flex;
+}
+
+.new-message input{
+	flex-grow: 2;
+    border: none;
+    padding-left: 10px;
+    font-size: 15px;
+    outline: none;
+}
+
+.new-message button {
+	float: left;
+    flex-grow: 1;
+    border-radius: 0;
+}
+
+
 .login {
 	padding: 38px;
 }

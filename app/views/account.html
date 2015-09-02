@@ -1,22 +1,24 @@
-<div class="row">
-	<div class="col-sm-12">
-		<h4>Perfil</h4>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			<h4>Perfil</h4>
 
-		<form>
-			<div class="form-group">
-				<label>ID Cuenta:</label>
-				<input type="text" class="form-control" placeholder="Email" ng-model="user.uid" disabled>
-			</div>
-			<div class="form-group">
-				<label>Correo registrado:</label>
-				<input type="text" class="form-control" ng-model="profile.email" disabled>
-			</div>
-			<div class="form-group">
-				<label>Nombre de usuario:</label>
-				<input type="text" class="form-control" placeholder="Escoge un nombre de usuario" ng-model="profile.name">
-			</div>
-		</form>
+			<form>
+				<div class="form-group">
+					<label>ID Cuenta:</label>
+					<input type="text" class="form-control" placeholder="Email" ng-model="user.uid" disabled>
+				</div>
+				<div class="form-group">
+					<label>Correo registrado:</label>
+					<input type="text" class="form-control" ng-model="profile.email" disabled>
+				</div>
+				<div class="form-group">
+					<label>Nombre de usuario:</label>
+					<input type="text" class="form-control" placeholder="Escoge un nombre de usuario" ng-model="profile.name">
+				</div>
+			</form>
 
-		<button role="button" ng-click="logout()" class="btn btn-danger bt-lg pull-right">Salir <span class="fui-exit"></span></button>
+			<button role="button" ng-click="logout()" class="btn btn-danger bt-lg pull-right">Salir <span class="fui-exit"></span></button>
+		</div>
 	</div>
 </div>
