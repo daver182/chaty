@@ -102,10 +102,10 @@ La compilación de la aplicación queda en *build/app*, dentro de la carpeta bui
 	
 La aplicación corriendo en los tres sistemas operativos:
 
-![image](http://www.danielvergara.info/images/others/Ubuntu.png =600x)
+![Ubuntu](http://www.danielvergara.info/images/others/Ubuntu.png)
 
-![image](http://www.danielvergara.info/images/others/Mac.png =600x)
+![Mac](http://www.danielvergara.info/images/others/Mac.png)
 
-![image](http://www.danielvergara.info/images/others/Windows.png =600x)
+![Windows](http://www.danielvergara.info/images/others/Windows.png)
 
 *Nota: El icono de la aplicación solo se aplica para OSX, porque para Linux no funciona y para Windows es necesario instalar Wine y a su vez sus complementos*
