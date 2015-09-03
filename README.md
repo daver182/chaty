@@ -97,5 +97,15 @@ Existen otras tareas de Grunt, que permiten construir la aplicación de escritor
 	grunt build:osx
 	grunt build:win
 	grunt build:linux
+
+La compilación de la aplicación queda en *build/app*, dentro de la carpeta build hay tres archivos, un icono, el packege.json y el script principal para la aplicación de escritorio. Estos no deben moverse para que se genere correctamente. Los ejecutables quedan en la carpeta *desktop*, uno para cada plataforma.
 	
+La aplicación corriendo en los tres sistemas operativos:
+
+![image](http://www.danielvergara.info/images/others/Ubuntu.png =600x)
+
+![image](http://www.danielvergara.info/images/others/Mac.png =600x)
+
+![image](http://www.danielvergara.info/images/others/Windows.png =600x)
+
 *Nota: El icono de la aplicación solo se aplica para OSX, porque para Linux no funciona y para Windows es necesario instalar Wine y a su vez sus complementos*
