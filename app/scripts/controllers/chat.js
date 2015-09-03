@@ -4,7 +4,7 @@
  * @name chatApp.controller:ChatCtrl
  * @description
  * # ChatCtrl
- * A demo of using AngularFire to manage a synchronized list.
+ * Permite listar los usuario del sistema, seleccionar uno e intercambiar mensajes
  */
 angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $firebaseObject, $timeout, user, blockUI) {
 		blockUI.start('Cargando usuarios...');
@@ -14,9 +14,7 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 			blockUI.stop();
 		}
 		$scope.currentUser = {};
-
-		var profile = $firebaseObject(Ref.child('users/' + user.uid));
-		profile.$bindTo($scope, 'profile');
+		$scope.me = user;
 
 		$scope.load = function(remoteUser){
 			blockUI.start('Cargando mensajes...');
@@ -43,7 +41,7 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 
 		$scope.addMessage = function(newMessage) {
 			if(newMessage && $scope.messages) {
-				$scope.messages.$add({ author: profile.$id, text: newMessage, date: new Date().valueOf() }).catch(showError);
+				$scope.messages.$add({ author: user.uid, text: newMessage, date: new Date().valueOf() }).catch(showError);
 			}
 		};
 

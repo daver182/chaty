@@ -5,7 +5,7 @@
  * @name chatApp.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the chatApp
+ * Controlador principal de la aplicacion, no hace ninguna tarea específica
  */
 angular.module('chatApp').controller('MainCtrl', function ($scope, Auth, $location) {
 

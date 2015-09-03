@@ -4,7 +4,7 @@
  * @name muck2App.controller:AccountCtrl
  * @description
  * # AccountCtrl
- * Provides rudimentary account management functions.
+ * Este controlador maneja los datos del usuario, permite cambiar el nombre y cerrar la sesión.
  */
 angular.module('chatApp').controller('AccountCtrl', function ($scope, user, Auth, Ref, $firebaseObject, $location, blockUI) {
 	$scope.user = user;

@@ -4,7 +4,7 @@
  * @name chatApp.controller:LoginCtrl
  * @description
  * # LoginCtrl
- * Manages authentication to any active providers.
+ * Se encarga de permitir que los usuarios inicien sesion, maneja la creacion de usuarios.
  */
 angular.module('chatApp').controller('LoginCtrl', function ($scope, Auth, $location, $q, Ref, $timeout, blockUI) {
 	Auth.$onAuth(function(user){
