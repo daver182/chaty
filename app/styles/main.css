@@ -18,6 +18,7 @@ html, body {
 .panel-left {
 	background: white;
     flex-grow: 1;
+    overflow: scroll;
 }
 
 .panel-right {
