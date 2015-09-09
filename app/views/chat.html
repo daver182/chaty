@@ -2,7 +2,7 @@
 	<div class="panel-left">
 		<ul class="users-list">
 			<li ng-repeat="user in users" ng-hide="user.$id === me.uid">
-				<a href="" ng-click="load(user)" ng-class="{ active: currentUser === user.$id}">
+				<a href="" ng-click="load(user)" ng-class="{ active: currentUser === user.$id, online: user.online }">
 					<div>{{ user.name }}</div>
 					<div>{{ user.email }}</div>
 				</a>

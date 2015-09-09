@@ -6,7 +6,10 @@
  * # ChatCtrl
  * Permite listar los usuario del sistema, seleccionar uno e intercambiar mensajes
  */
-angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $firebaseObject, $timeout, user, blockUI) {
+angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $firebaseObject, $timeout, user, blockUI, online, notification, profile) {
+		profile.setId(user.uid);
+		online.on(user.uid);
+
 		blockUI.start('Cargando usuarios...');
 		$firebaseArray(Ref.child('users')).$loaded().then(usersLoaded).catch(showError);
 		function usersLoaded(users){
@@ -42,6 +45,8 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 		$scope.addMessage = function(newMessage) {
 			if(newMessage && $scope.messages) {
 				$scope.messages.$add({ author: user.uid, text: newMessage, date: new Date().valueOf() }).catch(showError);
+
+				notification.create(user.uid, 'message');
 			}
 		};
 

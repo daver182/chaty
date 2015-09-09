@@ -56,10 +56,15 @@ html, body {
 	text-align: center;
 	transition: .25s linear;
 	color: #7b8996;
+	border-left: 10px solid #e74c3c;
 }
 
 .users-list li:nth-child(odd) a{
 	background: #f9fafb;
+}
+
+.users-list a.online {
+	border-left: 10px solid #2ecc71;
 }
 
 .users-list a:hover, .users-list a.active{
