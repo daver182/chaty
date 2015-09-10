@@ -19,7 +19,8 @@ angular.module('chatApp', [
         'firebase.ref',
         'firebase.auth',
         'blockUI',
-        'angularMoment'
+        'angularMoment',
+        'angular-web-notification'
     ]).config(function(blockUIConfig){
         blockUIConfig.message = 'Cargando...';
     }).run(function(amMoment){

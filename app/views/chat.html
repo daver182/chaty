@@ -2,7 +2,7 @@
 	<div class="panel-left">
 		<ul class="users-list">
 			<li ng-repeat="user in users" ng-hide="user.$id === me.uid">
-				<a href="" ng-click="load(user)" ng-class="{ active: currentUser === user.$id}">
+				<a href="" ng-click="load(user)" ng-class="{ active: currentUser === user.$id, online: user.online }">
 					<div>{{ user.name }}</div>
 					<div>{{ user.email }}</div>
 				</a>
@@ -13,7 +13,7 @@
 		<div class="panel-top">
 			<div class="messages">
 				<div ng-repeat="message in messages" class="message">
-					<div class="bubble" ng-class="message.author === me.uid ? 'bubble-right' : 'bubble-left'">{{message.text}} <br /> <span style="font-size: 10px;" am-time-ago="message.date"></span></div>
+					<div class="bubble" ng-class="message.author.id === me.uid ? 'bubble-right' : 'bubble-left'">{{message.text}} <br /> <span style="font-size: 10px;" am-time-ago="message.date"></span></div>
 
 					<div style="clear: both"></div>
 				</div>

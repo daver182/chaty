@@ -6,47 +6,52 @@
  * # ChatCtrl
  * Permite listar los usuario del sistema, seleccionar uno e intercambiar mensajes
  */
-angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $firebaseObject, $timeout, user, blockUI) {
-		blockUI.start('Cargando usuarios...');
-		$firebaseArray(Ref.child('users')).$loaded().then(usersLoaded).catch(showError);
-		function usersLoaded(users){
-			$scope.users = users;
-			blockUI.stop();
-		}
-		$scope.currentUser = {};
-		$scope.me = user;
+angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $firebaseObject, $timeout, user, blockUI, online, notification, profile) {
+	profile.bind(user.uid, $scope, 'profile').catch(showError);
 
-		$scope.load = function(remoteUser){
-			blockUI.start('Cargando mensajes...');
-			$scope.currentUser = remoteUser.$id;
-			loadChat(remoteUser.$id, user.uid, true);
-		}
+	blockUI.start('Cargando usuarios...');
+	$firebaseArray(Ref.child('users')).$loaded().then(usersLoaded).catch(showError);
+	function usersLoaded(users){
+		$scope.users = users;
+		blockUI.stop();
+		notification.watchUsers(users);
+	}
+	$scope.currentUser = {};
+	$scope.me = user;
 
-		function loadChat(user1, user2, first){
-			$firebaseArray(Ref.child('chats').child(user1 + '|' + user2)).$loaded().then(
-				function(messages){
-					if(messages.length === 0 && first){
-						return loadChat(user2, user1, false);
-					}
+	$scope.load = function(remoteUser){
+		blockUI.start('Cargando mensajes...');
+		$scope.currentUser = remoteUser.$id;
+		loadChat(remoteUser.$id, user.uid, true);
+	}
 
-					return messagesLoaded(messages);
+	function loadChat(user1, user2, first){
+		var key = user1 + '|' + user2;
+		$firebaseArray(Ref.child('chats').child(key)).$loaded().then(
+			function(messages){
+				if(messages.length === 0 && first){
+					return loadChat(user2, user1, false);
 				}
-			).catch(showError);;
-		}
 
-		function messagesLoaded(messages){
-			$scope.messages = messages;
-			blockUI.stop();
-		}
-
-		$scope.addMessage = function(newMessage) {
-			if(newMessage && $scope.messages) {
-				$scope.messages.$add({ author: user.uid, text: newMessage, date: new Date().valueOf() }).catch(showError);
+				return messagesLoaded(messages, key);
 			}
-		};
+		).catch(showError);
+	}
 
-		function showError(err) {
-			blockUI.stop();
-			swal({ title: 'Ha ocurrido un error', text: err, type: 'error', confirmButtonText: "OK" });
+	function messagesLoaded(messages, key){
+		$scope.messages = messages;
+		blockUI.stop();
+		notification.watchMessages(messages, key);
+	}
+
+	$scope.addMessage = function(newMessage) {
+		if(newMessage && $scope.messages) {
+			$scope.messages.$add({ author: { id: user.uid, name: $scope.profile.name }, text: newMessage, date: new Date().valueOf() }).catch(showError);
 		}
+	};
+
+	function showError(err) {
+		blockUI.stop();
+		swal({ title: 'Ha ocurrido un error', text: err, type: 'error', confirmButtonText: "OK" });
+	}
 });

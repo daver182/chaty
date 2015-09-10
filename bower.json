@@ -17,7 +17,8 @@
     "angular-block-ui": "~0.2.0",
     "angular-moment": "~0.10.2",
     "moment": "~2.10.6",
-    "sweetalert": "~1.1.0"
+    "sweetalert": "~1.1.0",
+    "angular-web-notification": "~0.0.29"
   },
   "devDependencies": {
     "mockfirebase": "0.11.0",
