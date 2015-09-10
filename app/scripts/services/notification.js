@@ -7,25 +7,41 @@
  * # notification
  * Servicio que permite enviar una nueva notificacion a Firebase y muestra cualquier notificacion nueva
  */
-angular.module('chatApp').service('notification', function (profile, webNotification, Ref, $firebaseObject) {
-	var lastNotification = $firebaseObject(Ref.child('notification'));
-	var first = true;
+angular.module('chatApp').service('notification', function (profile, webNotification, Ref, $firebaseObject, $firebaseArray) {
+	this.watchUsers = function(usersRef){
+		usersRef.$watch(function(data){
+			$firebaseObject(Ref.child('users').child(data.key)).$loaded().then(function(user){
+				if(user.online){
+					create(user.name, 'online');
+				}
+			});
+		});
+	}
 
-	lastNotification.$watch(function(data) {
-		if(!lastNotification.user || (lastNotification.user.id === profile.getId()) || first){
-			first = false;
-			return;
+	this.watchMessages = function(messagesRef, key){
+		messagesRef.$watch(function(data){
+			$firebaseObject(Ref.child('chats').child(key).child(data.key)).$loaded().then(function(message){
+				if(message.author.id !== profile.getUser().uid){
+					create(message.author.name, 'message');
+				}
+			});
+		});
+	}
+
+	function create(username, type){
+		if(type === 'online') {
+			userStatus(username, true);
+		} else if(type === 'offline') {
+			userStatus(username, false);
+		} else if(type === 'message') {
+			newMessage(username);
 		}
+	}
 
-		if(lastNotification.type === 'online') {
-			newUser(lastNotification.user.name);
-		} else if(lastNotification.type === 'message') {
-			newMessage(lastNotification.user.name);
-		}
-	});
-
-    function newUser(name){
+    function userStatus(name, status){
     	var message = 'El usuario ' + name + ' se ha conectado al chat';
+    	if(!status) message = 'El usuario ' + name + ' se ha desconectado del chat';
+
     	showNotification('Nuevo usuario', message);
     }
 
@@ -45,15 +61,4 @@ angular.module('chatApp').service('notification', function (profile, webNotifica
 			}
 		});
     }
-
-
-	this.create = function(uid, type){
-		console.log('create');
-		profile.getProfile().then(function(user){
-			var notification = $firebaseObject(Ref.child('notification'));
-			notification.$value = { user: { id: profile.getId(), name: user.name }, type: type, time: new Date().valueOf() };
-			notification.$save();
-		});
-	}
-    
 });

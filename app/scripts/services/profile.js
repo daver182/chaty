@@ -7,19 +7,17 @@
  * # profile
  * Este servicio permite obtener el perfil del usuario actual
  */
-angular.module('chatApp').service('profile', function (Ref, $firebaseObject) {
-	var uid;
+angular.module('chatApp').service('profile', function (Auth, Ref, $firebaseObject, $rootScope) {
+	var that = this;
+	$rootScope.$on('user:loaded', function(e, user){
+		that.user = user;
+	});
 
-	this.setId = function(uid) {
-		this.uid = uid;
-	};
-	
-	this.getId = function() {
-		return this.uid;
-	};
+	this.getUser = function(){
+		return this.user;
+	}
 
-	this.getProfile = function(bind) {
-		if(bind) return $firebaseObject(Ref.child('users/' + this.uid));
-		return $firebaseObject(Ref.child('users/' + this.uid)).$loaded();
-	};
+	this.bind = function(id, scope, variable){
+		return $firebaseObject(Ref.child('users').child(id)).$bindTo(scope, variable);
+	}
 });

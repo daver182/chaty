@@ -13,7 +13,7 @@
 		<div class="panel-top">
 			<div class="messages">
 				<div ng-repeat="message in messages" class="message">
-					<div class="bubble" ng-class="message.author === me.uid ? 'bubble-right' : 'bubble-left'">{{message.text}} <br /> <span style="font-size: 10px;" am-time-ago="message.date"></span></div>
+					<div class="bubble" ng-class="message.author.id === me.uid ? 'bubble-right' : 'bubble-left'">{{message.text}} <br /> <span style="font-size: 10px;" am-time-ago="message.date"></span></div>
 
 					<div style="clear: both"></div>
 				</div>

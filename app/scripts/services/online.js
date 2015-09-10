@@ -7,12 +7,15 @@
  * # online
  * Permite indicar que el usuario actual esta el linea
  */
-angular.module('chatApp').service('online', function ($firebaseObject, Ref, notification, profile) {
+angular.module('chatApp').service('online', function ($firebaseObject, Ref, Auth, $rootScope) {
 	var onlineStatus = $firebaseObject(Ref.child('.info').child('connected'));
 	var connected = false;
-	
-	this.on = function(uid, cb){
-		var userRef = Ref.child('users').child(uid).child('online');
+	var that = this;
+
+	Auth.$onAuth(function(user){
+		$rootScope.$emit('user:loaded', user);
+
+		var userRef = Ref.child('users').child(user.uid).child('online');
 		var userStatus = $firebaseObject(userRef);
 
 		onlineStatus.$watch(function(data) {
@@ -21,11 +24,9 @@ angular.module('chatApp').service('online', function ($firebaseObject, Ref, noti
 				userRef.onDisconnect().set(false);
 				userStatus.$value = true;
 				userStatus.$save();
-
-				notification.create(uid, 'online');
 			}else{
 				connected = false;
 			}
 		});
-	}
+	});
 });

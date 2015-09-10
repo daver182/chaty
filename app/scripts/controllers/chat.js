@@ -7,14 +7,14 @@
  * Permite listar los usuario del sistema, seleccionar uno e intercambiar mensajes
  */
 angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebaseArray, $firebaseObject, $timeout, user, blockUI, online, notification, profile) {
-	profile.setId(user.uid);
-	online.on(user.uid);
+	profile.bind(user.uid, $scope, 'profile').catch(showError);
 
 	blockUI.start('Cargando usuarios...');
 	$firebaseArray(Ref.child('users')).$loaded().then(usersLoaded).catch(showError);
 	function usersLoaded(users){
 		$scope.users = users;
 		blockUI.stop();
+		notification.watchUsers(users);
 	}
 	$scope.currentUser = {};
 	$scope.me = user;
@@ -26,27 +26,27 @@ angular.module('chatApp').controller('ChatCtrl', function ($scope, Ref, $firebas
 	}
 
 	function loadChat(user1, user2, first){
-		$firebaseArray(Ref.child('chats').child(user1 + '|' + user2)).$loaded().then(
+		var key = user1 + '|' + user2;
+		$firebaseArray(Ref.child('chats').child(key)).$loaded().then(
 			function(messages){
 				if(messages.length === 0 && first){
 					return loadChat(user2, user1, false);
 				}
 
-				return messagesLoaded(messages);
+				return messagesLoaded(messages, key);
 			}
-		).catch(showError);;
+		).catch(showError);
 	}
 
-	function messagesLoaded(messages){
+	function messagesLoaded(messages, key){
 		$scope.messages = messages;
 		blockUI.stop();
+		notification.watchMessages(messages, key);
 	}
 
 	$scope.addMessage = function(newMessage) {
 		if(newMessage && $scope.messages) {
-			$scope.messages.$add({ author: user.uid, text: newMessage, date: new Date().valueOf() }).catch(showError);
-
-			notification.create(user.uid, 'message');
+			$scope.messages.$add({ author: { id: user.uid, name: $scope.profile.name }, text: newMessage, date: new Date().valueOf() }).catch(showError);
 		}
 	};
 

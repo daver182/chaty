@@ -10,8 +10,7 @@ angular.module('chatApp').controller('AccountCtrl', function ($scope, user, Auth
 	$scope.user = user;
 	
 	blockUI.start();
-	profile.setId(user.uid);
-	profile.getProfile(true).$bindTo($scope, 'profile').then(profileLoaded).catch(showError);
+	profile.bind(user.uid, $scope, 'profile').then(profileLoaded).catch(showError);
 
 	function profileLoaded(profile){
 		blockUI.stop();
