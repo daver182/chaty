@@ -32,6 +32,7 @@ html, body {
     flex-grow: 6;
     overflow-y: auto;
     min-height: 0px;
+    max-height: 415px;
 }
 
 .panel-bottom {
