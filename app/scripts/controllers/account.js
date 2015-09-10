@@ -16,9 +16,6 @@ angular.module('chatApp').controller('AccountCtrl', function ($scope, user, Auth
 	function profileLoaded(profile){
 		blockUI.stop();
 	}
-	/*$firebaseObject(Ref.child('users/' + user.uid)).$bindTo($scope, 'profile').then(function(){
-		blockUI.stop();
-	}).catch(showError);*/
 
 	$scope.logout = function() {
 		Auth.$unauth();

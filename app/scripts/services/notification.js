@@ -5,22 +5,17 @@
  * @name chatApp.notification
  * @description
  * # notification
- * Service in the chatApp.
+ * Servicio que permite enviar una nueva notificacion a Firebase y muestra cualquier notificacion nueva
  */
 angular.module('chatApp').service('notification', function (profile, webNotification, Ref, $firebaseObject) {
-	//var stateRef = new Firebase('https://zbox-chat.firebaseio.com/notification');
-	
 	var lastNotification = $firebaseObject(Ref.child('notification'));
 	var first = true;
 
 	lastNotification.$watch(function(data) {
-		console.log('watch', data);
-		if(first) {first = false; return;}
-		
-
-		console.log(lastNotification);
-		if(!lastNotification) return;
-		if(lastNotification.user.id === profile.getId()) return;
+		if(!lastNotification.user || (lastNotification.user.id === profile.getId()) || first){
+			first = false;
+			return;
+		}
 
 		if(lastNotification.type === 'online') {
 			newUser(lastNotification.user.name);
@@ -28,7 +23,6 @@ angular.module('chatApp').service('notification', function (profile, webNotifica
 			newMessage(lastNotification.user.name);
 		}
 	});
-	
 
     function newUser(name){
     	var message = 'El usuario ' + name + ' se ha conectado al chat';
@@ -52,14 +46,14 @@ angular.module('chatApp').service('notification', function (profile, webNotifica
 		});
     }
 
-    return {
-    	create: function(uid, type){
-    		console.log('create');
-    		profile.getProfile().then(function(user){
-    			var notification = $firebaseObject(Ref.child('notification'));
-    			notification.$value = { user: { id: profile.getId(), name: user.name }, type: type, time: new Date().valueOf() };
-    			notification.$save();
-			});
-    	}
-    }
+
+	this.create = function(uid, type){
+		console.log('create');
+		profile.getProfile().then(function(user){
+			var notification = $firebaseObject(Ref.child('notification'));
+			notification.$value = { user: { id: profile.getId(), name: user.name }, type: type, time: new Date().valueOf() };
+			notification.$save();
+		});
+	}
+    
 });
