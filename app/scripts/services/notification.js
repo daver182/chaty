@@ -11,7 +11,9 @@ angular.module('chatApp').service('notification', function (profile, webNotifica
 	this.watchUsers = function(usersRef){
 		usersRef.$watch(function(data){
 			$firebaseObject(Ref.child('users').child(data.key)).$loaded().then(function(user){
+				if (user.$id === profile.getUser().uid) return;
 				if(user.online){
+					console.log(user, profile.getUser().uid);
 					create(user.name, 'online');
 				}
 			});
